@@ -1,5 +1,5 @@
-create database DBAPPAgenda;
-use DBAPPAgenda;
+create database DBAPPAgendaJava;
+use DBAPPAgendaJava;
 
 create table TUsuario
 (
