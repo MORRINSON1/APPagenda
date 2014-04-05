@@ -9,7 +9,6 @@
     <property name="hibernate.connection.password">030191</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.hbm2ddl.auto">validate</property>
     <mapping resource="Pojo/Tunidadmedida.hbm.xml"/>
     <mapping resource="Pojo/Tactividad.hbm.xml"/>
     <mapping resource="Pojo/Tactividadparticipante.hbm.xml"/>
