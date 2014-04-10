@@ -6,6 +6,7 @@
 
 package BeanRequest;
 
+import Clases.Encrypt;
 import Dao.DaoTUsuario;
 import Pojo.Tusuario;
 import java.util.List;
@@ -35,6 +36,7 @@ public class MbRUsuario {
     
     public String register()throws Exception
     {
+        this.tUsuario.setContrasenia(Encrypt.sha512(this.tUsuario.getContrasenia()));
         DaoTUsuario daoTUsuario=new DaoTUsuario();
         daoTUsuario.register(this.tUsuario);
         
