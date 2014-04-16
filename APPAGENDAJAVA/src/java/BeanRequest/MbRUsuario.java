@@ -10,8 +10,10 @@ import Clases.Encrypt;
 import Dao.DaoTUsuario;
 import Pojo.Tusuario;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -36,9 +38,17 @@ public class MbRUsuario {
     
     public String register()throws Exception
     {
+        if(!this.tUsuario.getContrasenia().equals(this.txtContraseniaRepita))
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Las contraseñas no coencide"));
+            
+            return "/usuario/registrar";
+        }
+        
         this.tUsuario.setContrasenia(Encrypt.sha512(this.tUsuario.getContrasenia()));
         DaoTUsuario daoTUsuario=new DaoTUsuario();
         daoTUsuario.register(this.tUsuario);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "El registro fue realizado correctamente"));
         
         return "/usuario/registrar";
     }

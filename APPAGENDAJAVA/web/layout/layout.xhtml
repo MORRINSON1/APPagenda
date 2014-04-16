@@ -15,17 +15,19 @@
     <h:body>
 
         <div id="top" class="top">
-            <p:megaMenu>
-                <p:menuitem value="Inicio" outcome="/index"/>
-                <p:submenu label="Usuario">
-                    <p:column>
-                        <p:submenu label="CRUD">
-                            <p:menuitem value="Registrar" outcome="/usuario/registrar"/>
-                            <p:menuitem value="Ver" url="#"/>
-                        </p:submenu>
-                    </p:column>
-                </p:submenu>
-            </p:megaMenu>
+            <h:form>
+                <p:megaMenu>
+                    <p:menuitem value="Inicio" outcome="/index"/>
+                    <p:submenu label="Usuario">
+                        <p:column>
+                            <p:submenu label="CRUD">
+                                <p:menuitem value="Registrar" outcome="/usuario/registrar"/>
+                                <p:menuitem value="Ver" url="#"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                </p:megaMenu>
+            </h:form>
             <ui:insert name="top">Top</ui:insert>
         </div>
 
