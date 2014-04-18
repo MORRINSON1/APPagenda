@@ -14,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -49,6 +50,8 @@ public class MbRUsuario {
         DaoTUsuario daoTUsuario=new DaoTUsuario();
         daoTUsuario.register(this.tUsuario);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "El registro fue realizado correctamente"));
+        
+        RequestContext.getCurrentInstance().execute("limpiarFormulario('frmRegistrarUsuario')");
         
         return "/usuario/registrar";
     }
