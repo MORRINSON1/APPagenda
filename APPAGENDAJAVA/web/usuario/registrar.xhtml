@@ -32,6 +32,7 @@
                         <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
                         <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="40" value="#{mbRUsuario.gettUsuario().correoElectronico}">
                             <f:validator validatorId="validatorVacio"/>
+                            <f:validator validatorId="validatorEmail"/>
                         </p:inputText>
                         <p:outputLabel value="Contraseña" for="txtContrasenia"/>
                         <p:password id="txtContrasenia" label="Contraseña" size="30" value="#{mbRUsuario.gettUsuario().contrasenia}">
@@ -40,7 +41,7 @@
                         <p:outputLabel value="Repita contraseña" for="txtContraseniaRepita"/>
                         <p:password id="txtContraseniaRepita" label="Repita contraseña" size="30" value="#{mbRUsuario.txtContraseniaRepita}"/>
                         <p:outputLabel value="Fecha de Nacimiento" for="txtFechaNacimiento"/>
-                        <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" value="#{mbRUsuario.gettUsuario().fechaNacimiento}"/>
+                        <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" value="#{mbRUsuario.gettUsuario().fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
                         <p:outputLabel value="Sexo" for="radioSexo"/>
                         <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbRUsuario.gettUsuario().sexo}">
                             <f:selectItem itemLabel="Masculino" itemValue="true"/>
