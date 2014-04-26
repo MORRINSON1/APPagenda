@@ -37,13 +37,13 @@ public class MbRUsuario {
         this.tUsuario.setSexo(true);
     }
     
-    public String register()throws Exception
+    public void register()throws Exception
     {
         if(!this.tUsuario.getContrasenia().equals(this.txtContraseniaRepita))
         {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Las contraseñas no coencide"));
             
-            return "/usuario/registrar";
+            return;
         }
         
         this.tUsuario.setContrasenia(Encrypt.sha512(this.tUsuario.getContrasenia()));
@@ -51,9 +51,9 @@ public class MbRUsuario {
         daoTUsuario.register(this.tUsuario);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "El registro fue realizado correctamente"));
         
-        RequestContext.getCurrentInstance().execute("limpiarFormulario('frmRegistrarUsuario')");
-        
-        return "/usuario/registrar";
+        this.tUsuario=new Tusuario();
+        this.tUsuario.setCodigoUsuario("");
+        this.tUsuario.setSexo(true);
     }
     
     public Tusuario gettUsuario() {

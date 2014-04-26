@@ -5,7 +5,3 @@
  */
 
 
-function limpiarFormulario(idFormulario)
-{
-    document.getElementById(idFormulario).reset();
-}
