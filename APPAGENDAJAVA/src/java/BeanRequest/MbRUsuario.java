@@ -29,28 +29,28 @@ public class MbRUsuario {
     /**
      * Creates a new instance of MbRUsuario
      */
-    private Tusuario tUsuario;
-    private List<Tusuario> listaTUsuario;
-    private String txtContraseniaRepita;
     private Session session;
     private Transaction transaccion;
     
-    public MbRUsuario() {
+    private Tusuario tUsuario;
+    private List<Tusuario> listaTUsuario;
+    
+    private String txtContraseniaRepita;
+    
+    public MbRUsuario() 
+    {
         this.tUsuario=new Tusuario();
         this.tUsuario.setCodigoUsuario("");
         this.tUsuario.setSexo(true);
     }
     
-    public void register()throws Exception
+    public void register()
     {
         this.session=null;
         this.transaccion=null;
         
         try
-        {
-            this.session=HibernateUtil.getSessionFactory().openSession();
-            this.transaccion=session.beginTransaction();
-            
+        {            
             if(!this.tUsuario.getContrasenia().equals(this.txtContraseniaRepita))
             {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Las contraseñas no coencide"));
@@ -59,6 +59,9 @@ public class MbRUsuario {
             }
 
             DaoTUsuario daoTUsuario=new DaoTUsuario();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=session.beginTransaction();
 
             if(daoTUsuario.getByCorreoElectronico(this.session, this.tUsuario.getCorreoElectronico())!=null)
             {
@@ -69,9 +72,10 @@ public class MbRUsuario {
 
             this.tUsuario.setContrasenia(Encrypt.sha512(this.tUsuario.getContrasenia()));
             daoTUsuario.register(this.session, this.tUsuario);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "El registro fue realizado correctamente"));
             
             this.transaccion.commit();
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "El registro fue realizado correctamente"));
 
             this.tUsuario=new Tusuario();
             this.tUsuario.setCodigoUsuario("");
