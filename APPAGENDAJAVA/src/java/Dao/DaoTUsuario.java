@@ -6,43 +6,48 @@
 
 package Dao;
 
-import HibernateUtil.HibernateUtil;
 import Interface.InterfaceTUsuario;
 import Pojo.Tusuario;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 /**
  *
  * @author KevinArnold
  */
 public class DaoTUsuario implements InterfaceTUsuario{
-    private Session session;
 
     @Override
-    public boolean register(Tusuario tUsuario) throws Exception {
-        session=HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction=session.beginTransaction();
+    public boolean register(Session session, Tusuario tUsuario) throws Exception {
         session.save(tUsuario);
-        transaction.commit();
-        session.close();
         
         return true;
     }
 
     @Override
-    public List<Tusuario> get() throws Exception {
+    public List<Tusuario> getAll(Session session) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Tusuario getList(String codigoUsuario) throws Exception {
+    public Tusuario getByCodigoUsuario(Session session, String codigoUsuario) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Tusuario getByCorreoElectronico(Session session, String correoElectronico) throws Exception {
+        String hql="from Tusuario where correoElectronico=:correoElectronico";
+        Query query=session.createQuery(hql);
+        query.setParameter("correoElectronico", correoElectronico);
+        
+        Tusuario tUsuario=(Tusuario) query.uniqueResult();
+        
+        return tUsuario;
     }
 
     @Override
-    public boolean update(Tusuario tUsuario) throws Exception {
+    public boolean update(Session session, Tusuario tUsuario) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
