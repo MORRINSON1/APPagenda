@@ -18,14 +18,15 @@
     <h:body>
 
         <div id="top" class="top">
+            <h1>Sistema de agenda en Java</h1>
             <h:form>
                 <p:megaMenu>
-                    <p:menuitem value="Inicio" outcome="/index"/>
-                    <p:submenu label="Usuario">
+                    <p:menuitem value="Inicio" outcome="/index" icon="ui-icon-check"/>
+                    <p:submenu label="Usuario" icon="ui-icon-gear">
                         <p:column>
                             <p:submenu label="CRUD">
-                                <p:menuitem value="Registrar" outcome="/usuario/registrar"/>
-                                <p:menuitem value="Ver" url="#"/>
+                                <p:menuitem value="Registrar" outcome="/usuario/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Ver y editar" url="#" icon="ui-icon-document"/>
                             </p:submenu>
                         </p:column>
                     </p:submenu>
@@ -36,6 +37,12 @@
 
         <div id="content" class="center_content">
             <ui:insert name="content">Content</ui:insert>
+        </div>
+        
+        <div id="bottom" class="bottom">
+            <hr />
+            By: Kevin Arnold Arias Figueroa
+            <ui:insert name="bottom">Bottom</ui:insert>
         </div>
 
     </h:body>
