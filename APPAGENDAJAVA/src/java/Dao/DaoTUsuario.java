@@ -27,7 +27,12 @@ public class DaoTUsuario implements InterfaceTUsuario{
 
     @Override
     public List<Tusuario> getAll(Session session) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String hql="from Tusuario";
+        Query query=session.createQuery(hql);
+        
+        List<Tusuario> listaTUsuario=(List<Tusuario>) query.list();
+        
+        return listaTUsuario;
     }
 
     @Override

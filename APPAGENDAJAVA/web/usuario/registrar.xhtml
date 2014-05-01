@@ -20,22 +20,22 @@
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
                     <h:panelGrid columns="3">
                         <p:outputLabel value="Nombre" for="txtNombre"/>
-                        <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbRUsuario.gettUsuario().nombre}">
+                        <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbRUsuario.usuario.nombre}">
                             <f:validator validatorId="validatorVacio"/>
                         </p:inputText>
                         <p:message for="txtNombre"/>
                         <p:outputLabel value="Apellido paterno" for="txtApellidoPaterno"/>
-                        <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbRUsuario.gettUsuario().apellidoPaterno}">
+                        <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbRUsuario.usuario.apellidoPaterno}">
                             <f:validator validatorId="validatorVacio"/>
                         </p:inputText>
                         <p:message for="txtApellidoPaterno"/>
                         <p:outputLabel value="Apellido materno" for="txtApellidoMaterno"/>
-                        <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbRUsuario.gettUsuario().apellidoMaterno}">
+                        <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbRUsuario.usuario.apellidoMaterno}">
                             <f:validator validatorId="validatorVacio"/>
                         </p:inputText>
                         <p:message for="txtApellidoMaterno"/>
                         <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
-                        <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbRUsuario.gettUsuario().correoElectronico}">
+                        <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbRUsuario.usuario.correoElectronico}">
                             <f:validator validatorId="validatorVacio"/>
                             <f:validator validatorId="validatorEmail"/>
                         </p:inputText>
@@ -44,7 +44,7 @@
                             <p:message for="txtCorreoElectronico"/>
                         </h:panelGroup>
                         <p:outputLabel value="Contraseña" for="txtContrasenia"/>
-                        <p:password id="txtContrasenia" label="Contraseña" size="50" value="#{mbRUsuario.gettUsuario().contrasenia}">
+                        <p:password id="txtContrasenia" label="Contraseña" size="50" value="#{mbRUsuario.usuario.contrasenia}">
                             <f:validator validatorId="validatorVacio"/>
                         </p:password>
                         <p:message for="txtContrasenia"/>
@@ -52,21 +52,24 @@
                         <p:password id="txtContraseniaRepita" label="Repita contraseña" size="50" value="#{mbRUsuario.txtContraseniaRepita}"/>
                         <h:panelGroup></h:panelGroup>
                         <p:outputLabel value="Fecha de Nacimiento" for="txtFechaNacimiento"/>
-                        <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbRUsuario.gettUsuario().fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
+                        <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbRUsuario.usuario.fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
                         <p:message for="txtFechaNacimiento"/>
                         <p:outputLabel value="Sexo" for="radioSexo"/>
-                        <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbRUsuario.gettUsuario().sexo}">
+                        <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbRUsuario.usuario.sexo}">
                             <f:selectItem itemLabel="Masculino" itemValue="true"/>
                             <f:selectItem itemLabel="Femenino" itemValue="false"/>
                         </p:selectOneRadio>
                         <h:panelGroup></h:panelGroup>
                         <p:outputLabel value="Teléfono" for="txtTelefono"/>
-                        <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbRUsuario.gettUsuario().telefono}"/>
+                        <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbRUsuario.usuario.telefono}"/>
                         <h:panelGroup></h:panelGroup>
                         <h:panelGroup></h:panelGroup>
                         <p:commandButton value="Registrar Usuario" actionListener="#{mbRUsuario.register()}" update="frmRegistrarUsuario"/>
                     </h:panelGrid>
                 </h:form>
+            </ui:define>
+            
+            <ui:define name="bottom">
             </ui:define>
 
         </ui:composition>
