@@ -34,6 +34,7 @@ public class MbRUsuario {
     
     private Tusuario usuario;
     private List<Tusuario> listaUsuario;
+    private List<Tusuario> listaUsuarioFiltrado;
     
     private String txtContraseniaRepita;
     
@@ -151,6 +152,14 @@ public class MbRUsuario {
 
     public void setListaUsuario(List<Tusuario> listaUsuario) {
         this.listaUsuario = listaUsuario;
+    }
+    
+    public List<Tusuario> getListaUsuarioFiltrado() {
+        return listaUsuarioFiltrado;
+    }
+
+    public void setListaUsuarioFiltrado(List<Tusuario> listaUsuarioFiltrado) {
+        this.listaUsuarioFiltrado = listaUsuarioFiltrado;
     }
 
     public String getTxtContraseniaRepita() {
