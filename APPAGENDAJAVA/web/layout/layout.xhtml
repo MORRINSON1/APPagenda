@@ -20,6 +20,13 @@
         <div id="top" class="top">
             <h1>Sistema de agenda en Java</h1>
             <h:form>
+                <div id="divSesionUsuario">
+                    <span>
+                        <b>Sesión iniciada por: </b>
+                        <p:outputLabel value="#{mbSLogin.correoElectronico==null ? 'Anónimo' : mbSLogin.correoElectronico}"/>
+                    </span>
+                    <p:commandButton value="Cerrar sesión" action="#{mbSLogin.cerrarSesion()}"/>
+                </div>
                 <p:megaMenu>
                     <p:menuitem value="Inicio" outcome="/index" icon="ui-icon-check"/>
                     <p:submenu label="Usuario" icon="ui-icon-gear">

@@ -1,3 +1,14 @@
+#divSesionUsuario
+{
+    position: fixed;
+    right: 10px;
+    top: 15px;
+}
+
+#divSesionUsuario > span
+{
+    color: white;
+}
 
 #top 
 {
