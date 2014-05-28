@@ -60,6 +60,9 @@ public class MbSLogin implements Serializable {
             {
                 if(tUsuario.getContrasenia().equals(Encrypt.sha512(this.contrasenia)))
                 {
+                    HttpSession httpSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                    httpSession.setAttribute("correoElectronico", this.correoElectronico);
+                    
                     return "/usuario/vertodo";
                 }
             }
@@ -98,6 +101,9 @@ public class MbSLogin implements Serializable {
     {
         this.correoElectronico=null;
         this.contrasenia=null;
+        
+        HttpSession httpSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        httpSession.invalidate();
         
         return "/index";
     }
