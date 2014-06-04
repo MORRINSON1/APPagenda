@@ -41,7 +41,34 @@ public class SessionUrlFilter implements Filter{
         
         String requestUrl=req.getRequestURL().toString();
         
-        if(session.getAttribute("correoElectronico")==null && !requestUrl.contains("index.xhtml"))
+        String[] urlPermitidaSinSesion=new String[]
+        {
+            "faces/index.xhtml",
+            "faces/usuario/registrar.xhtml"
+        };
+        
+        boolean redireccionarPeticion;
+        
+        if(session.getAttribute("correoElectronico")==null)
+        {            
+            redireccionarPeticion=true;
+            
+            for(String item : urlPermitidaSinSesion)
+            {
+                if(requestUrl.contains(item))
+                {
+                    redireccionarPeticion=false;
+                    
+                    break;
+                }
+            }
+        }
+        else
+        {
+            redireccionarPeticion=false;
+        }
+        
+        if(redireccionarPeticion)
         {
             res.sendRedirect(req.getContextPath()+"/faces/index.xhtml");
         }
