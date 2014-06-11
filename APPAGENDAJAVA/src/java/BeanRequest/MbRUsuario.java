@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -117,6 +118,46 @@ public class MbRUsuario {
             this.transaccion.commit();
             
             return this.listaUsuario;
+        }
+        catch(Exception ex)
+        {
+            if(this.transaccion!=null)
+            {
+                this.transaccion.rollback();
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+            
+            return null;
+        }
+        finally
+        {
+            if(this.session!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
+    public Tusuario getByCorreoElectronico()
+    {
+        this.session=null;
+        this.transaccion=null;
+        
+        try
+        {
+            DaoTUsuario daoTUsuario=new DaoTUsuario();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=this.session.beginTransaction();
+            
+            HttpSession sessionUsuario=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            
+            this.usuario=daoTUsuario.getByCorreoElectronico(this.session, sessionUsuario.getAttribute("correoElectronico").toString());
+            
+            this.transaccion.commit();
+            
+            return this.usuario;
         }
         catch(Exception ex)
         {
