@@ -179,6 +179,49 @@ public class MbRUsuario {
         }
     }
     
+    public void update()
+    {
+        this.session=null;
+        this.transaccion=null;
+        
+        try
+        {
+            DaoTUsuario daoTUsuario=new DaoTUsuario();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=session.beginTransaction();
+
+            /*if(daoTUsuario.getByCorreoElectronico(this.session, this.usuario.getCorreoElectronico())!=null)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El usuario ya se encuentra registrado en el sistema"));
+
+                return;
+            }*/
+
+            daoTUsuario.update(this.session, this.usuario);
+            
+            this.transaccion.commit();
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Los cambios fueron guardados correctamente"));
+        }
+        catch(Exception ex)
+        {
+            if(this.transaccion!=null)
+            {
+                this.transaccion.rollback();
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+        }
+        finally
+        {
+            if(this.session!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
     public Tusuario getUsuario() {
         return usuario;
     }

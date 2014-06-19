@@ -53,7 +53,9 @@ public class DaoTUsuario implements InterfaceTUsuario{
 
     @Override
     public boolean update(Session session, Tusuario tUsuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        session.update(tUsuario);
+        
+        return true;
     }
     
 }
