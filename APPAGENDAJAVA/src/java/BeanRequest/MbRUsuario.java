@@ -10,14 +10,21 @@ import Clases.Encrypt;
 import Dao.DaoTUsuario;
 import HibernateUtil.HibernateUtil;
 import Pojo.Tusuario;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -38,6 +45,7 @@ public class MbRUsuario {
     private List<Tusuario> listaUsuarioFiltrado;
     
     private String txtContraseniaRepita;
+    private UploadedFile avatar;
     
     public MbRUsuario() 
     {
@@ -222,6 +230,65 @@ public class MbRUsuario {
         }
     }
     
+    public void actualizarAvatar()throws IOException
+    {
+        InputStream inputStream=null;
+        OutputStream outputStream=null;
+        
+        try
+        {
+            if(this.avatar.getSize()<=0)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Ud. debe seleccionar un archivo de imagen \".png\""));
+                return;
+            }
+            
+            if(!this.avatar.getFileName().endsWith(".png"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo debe ser con extensión \".png\""));
+                return;
+            }
+            
+            if(this.avatar.getSize()>2097152)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo no puede ser más de 2mb"));
+                return;
+            }
+            
+            ServletContext servletContext=(ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String carpetaAvatar=(String)servletContext.getRealPath("/avatar");
+            
+            outputStream=new FileOutputStream(new File(carpetaAvatar+"/"+this.usuario.getCodigoUsuario()+".png"));
+            inputStream=this.avatar.getInputstream();
+            
+            int read=0;
+            byte[] bytes=new byte[1024];
+            
+            while((read=inputStream.read(bytes))!=-1)
+            {
+                outputStream.write(bytes, 0, read);
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Avatar actualizado correctamente"));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+        }
+        finally
+        {
+            if(inputStream!=null)
+            {
+                inputStream.close();
+            }
+            
+            if(outputStream!=null)
+            {
+                outputStream.close();
+            }
+        }
+    }
+    
     public Tusuario getUsuario() {
         return usuario;
     }
@@ -252,6 +319,14 @@ public class MbRUsuario {
 
     public void setTxtContraseniaRepita(String txtContraseniaRepita) {
         this.txtContraseniaRepita = txtContraseniaRepita;
+    }
+    
+    public UploadedFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(UploadedFile avatar) {
+        this.avatar = avatar;
     }
     
 }

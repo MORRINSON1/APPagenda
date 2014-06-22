@@ -64,7 +64,7 @@
                         <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbRUsuario.usuario.telefono}"/>
                         <h:panelGroup></h:panelGroup>
                         <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Registrar Usuario" actionListener="#{mbRUsuario.register()}" update="frmRegistrarUsuario"/>
+                        <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbRUsuario.register()}"/>
                     </h:panelGrid>
                 </h:form>
             </ui:define>

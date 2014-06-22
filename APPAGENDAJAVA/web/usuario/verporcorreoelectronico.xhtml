@@ -49,6 +49,9 @@
                         <p:column headerText="">
                             <p:commandButton value="Actualizar datos" onclick="PF('dialogoEditarUsuario').show()"/>
                         </p:column>
+                        <p:column headerText="">
+                            <p:commandButton value="Actualizar avatar" onclick="PF('dialogoActualizarAvatar').show()"/>
+                        </p:column>
                     </p:dataTable>
                     <p:dialog header="Datos del usuario" widgetVar="dialogoEditarUsuario" modal="true">
                         <h:panelGrid columns="3">
@@ -89,10 +92,17 @@
                             <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbRUsuario.usuario.telefono}"/>
                             <h:panelGroup></h:panelGroup>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Guardar cambios" actionListener="#{mbRUsuario.update()}" update="frmTUsuario"/>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbRUsuario.update()}"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
+                <p:dialog header="Actualizar avatar" widgetVar="dialogoActualizarAvatar" modal="true">
+                    <h:form id="frmActualizarAvatar" enctype="multipart/form-data">
+                        <h:inputHidden value="#{mbRUsuario.usuario.codigoUsuario}"/>
+                        <p:fileUpload id="txtAvatar" mode="simple" value="#{mbRUsuario.avatar}"/>
+                        <p:commandButton value="Actualizar avatar" ajax="false" actionListener="#{mbRUsuario.actualizarAvatar()}"/>
+                    </h:form>
+                </p:dialog>
             </ui:define>
 
             <ui:define name="bottom">
