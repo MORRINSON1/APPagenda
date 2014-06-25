@@ -50,6 +50,19 @@ public class DaoTUsuario implements InterfaceTUsuario{
         
         return tUsuario;
     }
+    
+    @Override
+    public Tusuario getByCorreoElectronicoDiferent(Session session, String codigoUsuario ,String correoElectronico)throws Exception
+    {
+        String hql="from Tusuario where codigoUsuario!=:codigoUsuario and correoElectronico=:correoElectronico";
+        Query query=session.createQuery(hql);
+        query.setParameter("codigoUsuario", codigoUsuario);
+        query.setParameter("correoElectronico", correoElectronico);
+        
+        Tusuario tUsuario=(Tusuario) query.uniqueResult();
+        
+        return tUsuario;
+    }
 
     @Override
     public boolean update(Session session, Tusuario tUsuario) throws Exception {

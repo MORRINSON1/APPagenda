@@ -19,5 +19,6 @@ public interface InterfaceTUsuario {
     public List<Tusuario> getAll(Session session)throws Exception;
     public Tusuario getByCodigoUsuario(Session session, String codigoUsuario)throws Exception;
     public Tusuario getByCorreoElectronico(Session session, String correoElectronico)throws Exception;
+    public Tusuario getByCorreoElectronicoDiferent(Session session, String codigoUsuario ,String correoElectronico)throws Exception;
     public boolean update(Session session, Tusuario tUsuario)throws Exception;
 }

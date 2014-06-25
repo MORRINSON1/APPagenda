@@ -6,6 +6,7 @@
 
 package BeanRequest;
 
+import BeanSession.MbSLogin;
 import Clases.Encrypt;
 import Dao.DaoTUsuario;
 import HibernateUtil.HibernateUtil;
@@ -18,6 +19,7 @@ import java.io.OutputStream;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -46,6 +48,9 @@ public class MbRUsuario {
     
     private String txtContraseniaRepita;
     private UploadedFile avatar;
+    
+    @ManagedProperty("#{mbSLogin}")
+    private MbSLogin mbSLogin;
     
     public MbRUsuario() 
     {
@@ -199,16 +204,21 @@ public class MbRUsuario {
             this.session=HibernateUtil.getSessionFactory().openSession();
             this.transaccion=session.beginTransaction();
 
-            /*if(daoTUsuario.getByCorreoElectronico(this.session, this.usuario.getCorreoElectronico())!=null)
+            if(daoTUsuario.getByCorreoElectronicoDiferent(this.session, this.usuario.getCodigoUsuario(), this.usuario.getCorreoElectronico())!=null)
             {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El usuario ya se encuentra registrado en el sistema"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Correo electrónico ocupado"));
 
                 return;
-            }*/
+            }
 
             daoTUsuario.update(this.session, this.usuario);
             
             this.transaccion.commit();
+            
+            this.mbSLogin.setCorreoElectronico(this.usuario.getCorreoElectronico());
+            
+            HttpSession httpSession=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            httpSession.setAttribute("correoElectronico", this.usuario.getCorreoElectronico());
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Los cambios fueron guardados correctamente"));
         }
@@ -327,6 +337,14 @@ public class MbRUsuario {
 
     public void setAvatar(UploadedFile avatar) {
         this.avatar = avatar;
+    }
+    
+    public MbSLogin getMbSLogin() {
+        return mbSLogin;
+    }
+
+    public void setMbSLogin(MbSLogin mbSLogin) {
+        this.mbSLogin = mbSLogin;
     }
     
 }
