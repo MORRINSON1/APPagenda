@@ -18,7 +18,7 @@
                 <hr />
                 <h:form id="frmListaTUsuario">
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
-                    <p:dataTable id="tablaListaTUsuario" var="item" value="#{mbRUsuario.all}" paginator="true" rows="50" selection="#{mbRUsuario.usuario}" selectionMode="single" rowKey="#{item.codigoUsuario}" filteredValue="#{mbRUsuario.listaUsuarioFiltrado}">
+                    <p:dataTable id="tablaListaTUsuario" var="item" value="#{mbVUsuario.all}" paginator="true" rows="50" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.codigoUsuario}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}">
                         
                         <p:ajax event="rowSelect" update=":frmListaTUsuario:panelDetalleUsuario" oncomplete="dialogoDetalleUsuario.show()"/>
                         
@@ -40,26 +40,73 @@
                         <p:column headerText="Correo electrónico" filterBy="correoElectronico">
                             <h:outputText value="#{item.correoElectronico}"/>
                         </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar datos" actionListener="#{mbVUsuario.cargarUsuarioEditar(item.codigoUsuario)}"/>
+                        </p:column>
                     </p:dataTable>
                     
                     <p:dialog header="Detalle de usuario" widgetVar="dialogoDetalleUsuario" resizable="false">
                         <h:panelGrid id="panelDetalleUsuario" columns="2">
                             <p:outputLabel value="Nombre"/>
-                            <h:outputText value="#{mbRUsuario.usuario.nombre}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.nombre}"/>
                             <p:outputLabel value="Apellido paterno"/>
-                            <h:outputText value="#{mbRUsuario.usuario.apellidoPaterno}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.apellidoPaterno}"/>
                             <p:outputLabel value="Apellido materno"/>
-                            <h:outputText value="#{mbRUsuario.usuario.apellidoMaterno}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.apellidoMaterno}"/>
                             <p:outputLabel value="Correo electrónico"/>
-                            <h:outputText value="#{mbRUsuario.usuario.correoElectronico}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.correoElectronico}"/>
                             <p:outputLabel value="Fecha de nacimiento"/>
-                            <h:outputText value="#{mbRUsuario.usuario.fechaNacimiento}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.fechaNacimiento}"/>
                             <p:outputLabel value="Sexo"/>
-                            <h:outputText value="#{mbRUsuario.usuario.sexo ? 'Masculino' : 'Femenino'}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.sexo ? 'Masculino' : 'Femenino'}"/>
                             <p:outputLabel value="Teléfono"/>
-                            <h:outputText value="#{mbRUsuario.usuario.telefono}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.telefono}"/>
                             <p:outputLabel value="Fecha de registro"/>
-                            <h:outputText value="#{mbRUsuario.usuario.fechaRegistro}"/>
+                            <h:outputText value="#{mbVUsuario.usuario.fechaRegistro}"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id="frmEditarUsuario">
+                    <p:dialog header="Datos del usuario" widgetVar="dialogoEditarUsuario" modal="true">
+                        <h:panelGrid id="panelEditarUsuario" columns="3">
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtNombre"/>
+                            <p:outputLabel value="Apellido paterno" for="txtApellidoPaterno"/>
+                            <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbVUsuario.usuario.apellidoPaterno}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtApellidoPaterno"/>
+                            <p:outputLabel value="Apellido materno" for="txtApellidoMaterno"/>
+                            <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbVUsuario.usuario.apellidoMaterno}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtApellidoMaterno"/>
+                            <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
+                            <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbVUsuario.usuario.correoElectronico}">
+                                <f:validator validatorId="validatorVacio"/>
+                                <f:validator validatorId="validatorEmail"/>
+                            </p:inputText>
+                            <h:panelGroup>
+                                <p:tooltip for="txtCorreoElectronico" showEvent="focus" hideEvent="blur"/>
+                                <p:message for="txtCorreoElectronico"/>
+                            </h:panelGroup>
+                            <p:outputLabel value="Fecha de Nacimiento" for="txtFechaNacimiento"/>
+                            <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbVUsuario.usuario.fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
+                            <p:message for="txtFechaNacimiento"/>
+                            <p:outputLabel value="Sexo" for="radioSexo"/>
+                            <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbVUsuario.usuario.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue="true"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="false"/>
+                            </p:selectOneRadio>
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Teléfono" for="txtTelefono"/>
+                            <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbVUsuario.usuario.telefono}"/>
+                            <h:panelGroup></h:panelGroup>
+                            <h:panelGroup></h:panelGroup>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbVUsuario.update()}"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

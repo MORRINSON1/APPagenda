@@ -37,7 +37,7 @@ public class DaoTUsuario implements InterfaceTUsuario{
 
     @Override
     public Tusuario getByCodigoUsuario(Session session, String codigoUsuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (Tusuario) session.get(Tusuario.class, codigoUsuario);
     }
     
     @Override

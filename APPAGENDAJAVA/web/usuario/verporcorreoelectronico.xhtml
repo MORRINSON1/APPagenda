@@ -18,7 +18,7 @@
                 <hr />
                 <h:form id="frmTUsuario">
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
-                    <p:dataTable id="tablaTUsuario" var="item" value="#{mbRUsuario.byCorreoElectronico}" paginator="false" rows="1">                        
+                    <p:dataTable id="tablaTUsuario" var="item" value="#{mbVUsuario.byCorreoElectronico}" paginator="false" rows="1">                        
                         <p:column headerText="Avatar">
                             <p:graphicImage value="#{FacesContext.getCurrentInstance().getExternalContext()}/avatar/#{item.codigoUsuario}.png" width="70" height="70" cache="false" alt="Sin definir" style="border-radius: 4px;box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7)"/>
                         </p:column>
@@ -56,22 +56,22 @@
                     <p:dialog header="Datos del usuario" widgetVar="dialogoEditarUsuario" modal="true">
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Nombre" for="txtNombre"/>
-                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbRUsuario.usuario.nombre}">
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
                                 <f:validator validatorId="validatorVacio"/>
                             </p:inputText>
                             <p:message for="txtNombre"/>
                             <p:outputLabel value="Apellido paterno" for="txtApellidoPaterno"/>
-                            <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbRUsuario.usuario.apellidoPaterno}">
+                            <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbVUsuario.usuario.apellidoPaterno}">
                                 <f:validator validatorId="validatorVacio"/>
                             </p:inputText>
                             <p:message for="txtApellidoPaterno"/>
                             <p:outputLabel value="Apellido materno" for="txtApellidoMaterno"/>
-                            <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbRUsuario.usuario.apellidoMaterno}">
+                            <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbVUsuario.usuario.apellidoMaterno}">
                                 <f:validator validatorId="validatorVacio"/>
                             </p:inputText>
                             <p:message for="txtApellidoMaterno"/>
                             <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
-                            <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbRUsuario.usuario.correoElectronico}">
+                            <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbVUsuario.usuario.correoElectronico}">
                                 <f:validator validatorId="validatorVacio"/>
                                 <f:validator validatorId="validatorEmail"/>
                             </p:inputText>
@@ -80,27 +80,27 @@
                                 <p:message for="txtCorreoElectronico"/>
                             </h:panelGroup>
                             <p:outputLabel value="Fecha de Nacimiento" for="txtFechaNacimiento"/>
-                            <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbRUsuario.usuario.fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
+                            <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbVUsuario.usuario.fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
                             <p:message for="txtFechaNacimiento"/>
                             <p:outputLabel value="Sexo" for="radioSexo"/>
-                            <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbRUsuario.usuario.sexo}">
+                            <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbVUsuario.usuario.sexo}">
                                 <f:selectItem itemLabel="Masculino" itemValue="true"/>
                                 <f:selectItem itemLabel="Femenino" itemValue="false"/>
                             </p:selectOneRadio>
                             <h:panelGroup></h:panelGroup>
                             <p:outputLabel value="Teléfono" for="txtTelefono"/>
-                            <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbRUsuario.usuario.telefono}"/>
+                            <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbVUsuario.usuario.telefono}"/>
                             <h:panelGroup></h:panelGroup>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbRUsuario.update()}"/>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbVUsuario.update()}"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
                 <p:dialog header="Actualizar avatar" widgetVar="dialogoActualizarAvatar" modal="true">
                     <h:form id="frmActualizarAvatar" enctype="multipart/form-data">
-                        <h:inputHidden value="#{mbRUsuario.usuario.codigoUsuario}"/>
-                        <p:fileUpload id="txtAvatar" mode="simple" value="#{mbRUsuario.avatar}"/>
-                        <p:commandButton value="Actualizar avatar" ajax="false" actionListener="#{mbRUsuario.actualizarAvatar()}"/>
+                        <h:inputHidden value="#{mbVUsuario.usuario.codigoUsuario}"/>
+                        <p:fileUpload id="txtAvatar" mode="simple" value="#{mbVUsuario.avatar}"/>
+                        <p:commandButton value="Actualizar avatar" ajax="false" actionListener="#{mbVUsuario.actualizarAvatar()}"/>
                     </h:form>
                 </p:dialog>
             </ui:define>
