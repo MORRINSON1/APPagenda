@@ -28,6 +28,7 @@ correoElectronico varchar(30) not null,
 contrasenia varchar(700) not null,
 fechaNacimiento date not null,
 sexo bool not null,
+telefono varchar(20) not null,
 fechaRegistro timestamp not null default current_timestamp,
 fechaModificacion timestamp not null default current_timestamp on update current_timestamp,
 foreign key(codigoUsuario) references TUsuario(codigoUsuario)

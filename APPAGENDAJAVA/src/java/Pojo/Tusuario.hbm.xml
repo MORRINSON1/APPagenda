@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 02-abr-2014 11:55:27 by Hibernate Tools 3.6.0 -->
+<!-- Generated 11-jul-2014 16:04:48 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="Pojo.Tusuario" table="tusuario" catalog="dbappagendajava">
         <id name="codigoUsuario" type="string">

@@ -1,5 +1,5 @@
 package Pojo;
-// Generated 02-abr-2014 11:55:25 by Hibernate Tools 3.6.0
+// Generated 11-jul-2014 16:04:47 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -21,6 +21,7 @@ public class Tusuarioamigo  implements java.io.Serializable {
      private String contrasenia;
      private Date fechaNacimiento;
      private boolean sexo;
+     private String telefono;
      private Date fechaRegistro;
      private Date fechaModificacion;
      private Set tusuarioamigotelefonos = new HashSet(0);
@@ -31,7 +32,7 @@ public class Tusuarioamigo  implements java.io.Serializable {
     }
 
 	
-    public Tusuarioamigo(String codigoUsuarioAmigo, Tusuario tusuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contrasenia, Date fechaNacimiento, boolean sexo, Date fechaRegistro, Date fechaModificacion) {
+    public Tusuarioamigo(String codigoUsuarioAmigo, Tusuario tusuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contrasenia, Date fechaNacimiento, boolean sexo, String telefono, Date fechaRegistro, Date fechaModificacion) {
         this.codigoUsuarioAmigo = codigoUsuarioAmigo;
         this.tusuario = tusuario;
         this.nombre = nombre;
@@ -41,10 +42,11 @@ public class Tusuarioamigo  implements java.io.Serializable {
         this.contrasenia = contrasenia;
         this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;
+        this.telefono = telefono;
         this.fechaRegistro = fechaRegistro;
         this.fechaModificacion = fechaModificacion;
     }
-    public Tusuarioamigo(String codigoUsuarioAmigo, Tusuario tusuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contrasenia, Date fechaNacimiento, boolean sexo, Date fechaRegistro, Date fechaModificacion, Set tusuarioamigotelefonos, Set tactividadparticipantes, Set tactividadcomentarios) {
+    public Tusuarioamigo(String codigoUsuarioAmigo, Tusuario tusuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correoElectronico, String contrasenia, Date fechaNacimiento, boolean sexo, String telefono, Date fechaRegistro, Date fechaModificacion, Set tusuarioamigotelefonos, Set tactividadparticipantes, Set tactividadcomentarios) {
        this.codigoUsuarioAmigo = codigoUsuarioAmigo;
        this.tusuario = tusuario;
        this.nombre = nombre;
@@ -54,6 +56,7 @@ public class Tusuarioamigo  implements java.io.Serializable {
        this.contrasenia = contrasenia;
        this.fechaNacimiento = fechaNacimiento;
        this.sexo = sexo;
+       this.telefono = telefono;
        this.fechaRegistro = fechaRegistro;
        this.fechaModificacion = fechaModificacion;
        this.tusuarioamigotelefonos = tusuarioamigotelefonos;
@@ -123,6 +126,13 @@ public class Tusuarioamigo  implements java.io.Serializable {
     
     public void setSexo(boolean sexo) {
         this.sexo = sexo;
+    }
+    public String getTelefono() {
+        return this.telefono;
+    }
+    
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
     public Date getFechaRegistro() {
         return this.fechaRegistro;
