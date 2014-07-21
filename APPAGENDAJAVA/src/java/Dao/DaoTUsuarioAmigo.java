@@ -8,6 +8,7 @@ package Dao;
 
 import Interface.InterfaceTUsuarioAmigo;
 import Pojo.Tusuarioamigo;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -30,9 +31,17 @@ public class DaoTUsuarioAmigo implements InterfaceTUsuarioAmigo{
         Query query=session.createQuery(hql);
         query.setParameter("correoElectronico", correoElectronico);
         
-        Tusuarioamigo tUsuarioAmigo=(Tusuarioamigo) query.uniqueResult();
+        return (Tusuarioamigo) query.uniqueResult();
+    }
+    
+    @Override
+    public List<Tusuarioamigo> getByCodigoUsuario(Session session, String codigoUsuario)throws Exception
+    {
+        String hql="from Tusuarioamigo where codigoUsuario=:codigoUsuario";
+        Query query=session.createQuery(hql);
+        query.setParameter("codigoUsuario", codigoUsuario);
         
-        return tUsuarioAmigo;
+        return (List<Tusuarioamigo>) query.list();
     }
     
 }

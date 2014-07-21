@@ -12,6 +12,7 @@ import Dao.DaoTUsuarioAmigo;
 import HibernateUtil.HibernateUtil;
 import Pojo.Tusuario;
 import Pojo.Tusuarioamigo;
+import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -19,6 +20,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.model.mindmap.DefaultMindmapNode;
+import org.primefaces.model.mindmap.MindmapNode;
 
 /**
  *
@@ -32,9 +35,12 @@ public class MbVUsuarioAmigo {
      * Creates a new instance of MbVUsuarioAmigo
      */
     private Tusuarioamigo usuarioamigo;
+    private List<Tusuarioamigo> listaUsuarioAmigo;
     private Tusuario usuario;
     
     private String txtContraseniaRepita;
+    
+    private MindmapNode nodoUsuario;
     
     private Session session;
     private Transaction transaccion;
@@ -107,12 +113,69 @@ public class MbVUsuarioAmigo {
         }
     }
     
+    public MindmapNode cargarNodosUsuarioAmigoPorCodigoUsuario()
+    {
+        this.session=null;
+        this.transaccion=null;
+        
+        try
+        {
+            DaoTUsuarioAmigo daoTUsuarioAmigo=new DaoTUsuarioAmigo();
+            DaoTUsuario daoTUsuario=new DaoTUsuario();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=session.beginTransaction();
+            
+            HttpSession sessionUsuario=(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            
+            this.usuario=daoTUsuario.getByCorreoElectronico(this.session, sessionUsuario.getAttribute("correoElectronico").toString());
+            this.listaUsuarioAmigo=daoTUsuarioAmigo.getByCodigoUsuario(this.session, this.usuario.getCodigoUsuario());
+            
+            this.nodoUsuario=new DefaultMindmapNode(this.usuario.getNombre()+" "+this.usuario.getApellidoPaterno()+" "+this.usuario.getApellidoMaterno(), this.usuario.getCodigoUsuario(), "EBF8A4", false);
+            
+            for(Tusuarioamigo item : this.listaUsuarioAmigo)
+            {
+                this.nodoUsuario.addNode(new DefaultMindmapNode(item.getNombre()+" "+item.getApellidoPaterno()+" "+item.getApellidoMaterno(), item.getCodigoUsuarioAmigo(), "E5E5E5", true));
+            }
+            
+            this.transaccion.commit();
+
+            return this.nodoUsuario;
+        }
+        catch(Exception ex)
+        {
+            if(this.transaccion!=null)
+            {
+                this.transaccion.rollback();
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+            
+            return null;
+        }
+        finally
+        {
+            if(this.session!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
     public Tusuarioamigo getUsuarioamigo() {
         return usuarioamigo;
     }
 
     public void setUsuarioamigo(Tusuarioamigo usuarioamigo) {
         this.usuarioamigo = usuarioamigo;
+    }
+    
+    public List<Tusuarioamigo> getListaUsuarioAmigo() {
+        return listaUsuarioAmigo;
+    }
+
+    public void setListaUsuarioAmigo(List<Tusuarioamigo> listaUsuarioAmigo) {
+        this.listaUsuarioAmigo = listaUsuarioAmigo;
     }
     
     public Tusuario getUsuario() {
@@ -129,6 +192,14 @@ public class MbVUsuarioAmigo {
 
     public void setTxtContraseniaRepita(String txtContraseniaRepita) {
         this.txtContraseniaRepita = txtContraseniaRepita;
+    }
+    
+    public MindmapNode getNodoUsuario() {
+        return nodoUsuario;
+    }
+
+    public void setNodoUsuario(MindmapNode nodoUsuario) {
+        this.nodoUsuario = nodoUsuario;
     }
     
 }

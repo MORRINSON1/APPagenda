@@ -7,6 +7,7 @@
 package Interface;
 
 import Pojo.Tusuarioamigo;
+import java.util.List;
 import org.hibernate.Session;
 
 /**
@@ -16,4 +17,5 @@ import org.hibernate.Session;
 public interface InterfaceTUsuarioAmigo {
     public boolean register(Session session, Tusuarioamigo tUsuarioamigo)throws Exception;
     public Tusuarioamigo getByCorreoElectronico(Session session, String correoElectronico)throws Exception;
+    public List<Tusuarioamigo> getByCodigoUsuario(Session session, String codigoUsuario)throws Exception;
 }
