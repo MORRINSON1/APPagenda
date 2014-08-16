@@ -20,6 +20,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.mindmap.DefaultMindmapNode;
 import org.primefaces.model.mindmap.MindmapNode;
 
@@ -135,7 +137,7 @@ public class MbVUsuarioAmigo {
             
             for(Tusuarioamigo item : this.listaUsuarioAmigo)
             {
-                this.nodoUsuario.addNode(new DefaultMindmapNode(item.getNombre()+" "+item.getApellidoPaterno()+" "+item.getApellidoMaterno(), item.getCodigoUsuarioAmigo(), "E5E5E5", true));
+                this.nodoUsuario.addNode(new DefaultMindmapNode(item.getNombre()+" "+item.getApellidoPaterno()+" "+item.getApellidoMaterno()+':'+item.getCodigoUsuarioAmigo(), item.getCodigoUsuarioAmigo(), "E5E5E5", true));
             }
             
             this.transaccion.commit();
@@ -152,6 +154,94 @@ public class MbVUsuarioAmigo {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
             
             return null;
+        }
+        finally
+        {
+            if(this.session!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
+    public void mostrarDialogoEditarUsuarioAmigo(SelectEvent event)
+    {
+        MindmapNode node=(MindmapNode) event.getObject();
+        
+        String codigoUsuarioAmigo=node.getLabel().split(":")[1];
+        
+        this.session=null;
+        this.transaccion=null;
+        
+        try
+        {
+            DaoTUsuarioAmigo daoTUsuarioAmigo=new DaoTUsuarioAmigo();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=session.beginTransaction();
+            
+            this.usuarioamigo=daoTUsuarioAmigo.getByCodigoUsuarioAmigo(this.session, codigoUsuarioAmigo);
+            
+            RequestContext.getCurrentInstance().update("frmEditarUsuarioAmigo:panelEditarUsuarioAmigo");
+            RequestContext.getCurrentInstance().execute("PF('dialogoEditarUsuarioAmigo').show()");
+            
+            this.transaccion.commit();
+        }
+        catch(Exception ex)
+        {
+            if(this.transaccion!=null)
+            {
+                this.transaccion.rollback();
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+        }
+        finally
+        {
+            if(this.session!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
+    public String update()
+    {
+        this.session=null;
+        this.transaccion=null;
+        
+        try
+        {
+            DaoTUsuarioAmigo daoTUsuarioAmigo=new DaoTUsuarioAmigo();
+            
+            this.session=HibernateUtil.getSessionFactory().openSession();
+            this.transaccion=session.beginTransaction();
+
+            if(daoTUsuarioAmigo.getByCorreoElectronicoDiferent(this.session, this.usuarioamigo.getCodigoUsuarioAmigo(), this.usuarioamigo.getCorreoElectronico())!=null)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Correo electrónico ocupado"));
+
+                return "verporcodigousuario.xhtml";
+            }
+
+            daoTUsuarioAmigo.update(this.session, this.usuarioamigo);
+            
+            this.transaccion.commit();
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Los cambios fueron guardados correctamente"));
+            
+            return "verporcodigousuario.xhtml";
+        }
+        catch(Exception ex)
+        {
+            if(this.transaccion!=null)
+            {
+                this.transaccion.rollback();
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+            
+            return "verporcodigousuario.xhtml";
         }
         finally
         {

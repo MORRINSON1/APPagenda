@@ -24,11 +24,28 @@ public class DaoTUsuarioAmigo implements InterfaceTUsuarioAmigo{
         
         return true;
     }
+    
+    @Override
+    public Tusuarioamigo getByCodigoUsuarioAmigo(Session session, String codigoUsuarioAmigo)throws Exception
+    {
+        return (Tusuarioamigo) session.get(Tusuarioamigo.class, codigoUsuarioAmigo);
+    }
 
     @Override
     public Tusuarioamigo getByCorreoElectronico(Session session, String correoElectronico) throws Exception {
         String hql="from Tusuarioamigo where correoElectronico=:correoElectronico";
         Query query=session.createQuery(hql);
+        query.setParameter("correoElectronico", correoElectronico);
+        
+        return (Tusuarioamigo) query.uniqueResult();
+    }
+    
+    @Override
+    public Tusuarioamigo getByCorreoElectronicoDiferent(Session session, String codigoUsuarioAmigo, String correoElectronico)throws Exception
+    {
+        String hql="from Tusuarioamigo where codigoUsuarioAmigo!=:codigoUsuarioAmigo and correoElectronico=:correoElectronico";
+        Query query=session.createQuery(hql);
+        query.setParameter("codigoUsuarioAmigo", codigoUsuarioAmigo);
         query.setParameter("correoElectronico", correoElectronico);
         
         return (Tusuarioamigo) query.uniqueResult();
@@ -42,6 +59,14 @@ public class DaoTUsuarioAmigo implements InterfaceTUsuarioAmigo{
         query.setParameter("codigoUsuario", codigoUsuario);
         
         return (List<Tusuarioamigo>) query.list();
+    }
+    
+    @Override
+    public boolean update(Session session, Tusuarioamigo tUsuarioamigo)throws Exception
+    {
+        session.update(tUsuarioamigo);
+        
+        return true;
     }
     
 }

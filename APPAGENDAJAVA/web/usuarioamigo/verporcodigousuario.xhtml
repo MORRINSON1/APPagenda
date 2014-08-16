@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -14,8 +15,55 @@
 
             <ui:define name="content">
                 <h:form>
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
                     <p:mindmap value="#{mbVUsuarioAmigo.cargarNodosUsuarioAmigoPorCodigoUsuario()}" style="height: 500px;width: 100%;">
+                        <p:ajax event="select" listener="#{mbVUsuarioAmigo.mostrarDialogoEditarUsuarioAmigo}"/>
                     </p:mindmap>
+                </h:form>
+                
+                <h:form id="frmEditarUsuarioAmigo">
+                    <p:dialog header="Datos del amigo" widgetVar="dialogoEditarUsuarioAmigo" modal="true">
+                        <h:panelGrid id="panelEditarUsuarioAmigo" columns="3">
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuarioAmigo.usuarioamigo.nombre}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtNombre"/>
+                            <p:outputLabel value="Apellido paterno" for="txtApellidoPaterno"/>
+                            <p:inputText id="txtApellidoPaterno" label="Apellido paterno" size="50" value="#{mbVUsuarioAmigo.usuarioamigo.apellidoPaterno}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtApellidoPaterno"/>
+                            <p:outputLabel value="Apellido materno" for="txtApellidoMaterno"/>
+                            <p:inputText id="txtApellidoMaterno" label="Apellido materno" size="50" value="#{mbVUsuarioAmigo.usuarioamigo.apellidoMaterno}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtApellidoMaterno"/>
+                            <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
+                            <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: KAAF030191@gmail.com" value="#{mbVUsuarioAmigo.usuarioamigo.correoElectronico}">
+                                <f:validator validatorId="validatorVacio"/>
+                                <f:validator validatorId="validatorEmail"/>
+                            </p:inputText>
+                            <h:panelGroup>
+                                <p:tooltip for="txtCorreoElectronico" showEvent="focus" hideEvent="blur"/>
+                                <p:message for="txtCorreoElectronico"/>
+                            </h:panelGroup>
+                            <p:outputLabel value="Fecha de Nacimiento" for="txtFechaNacimiento"/>
+                            <p:calendar id="txtFechaNacimiento" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" value="#{mbVUsuarioAmigo.usuarioamigo.fechaNacimiento}" pattern="dd/MM/yyyy" required="true" requiredMessage="Fecha de nacimiento es requerido"/>
+                            <p:message for="txtFechaNacimiento"/>
+                            <p:outputLabel value="Sexo" for="radioSexo"/>
+                            <p:selectOneRadio id="radioSexo" label="Sexo" value="#{mbVUsuarioAmigo.usuarioamigo.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue="true"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="false"/>
+                            </p:selectOneRadio>
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Teléfono" for="txtTelefono"/>
+                            <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbVUsuarioAmigo.usuarioamigo.telefono}"/>
+                            <h:panelGroup></h:panelGroup>
+                            <h:panelGroup></h:panelGroup>
+                            <p:commandButton value="Guardar cambios" ajax="false" action="#{mbVUsuarioAmigo.update()}"/>
+                        </h:panelGrid>
+                    </p:dialog>
                 </h:form>
             </ui:define>
 
